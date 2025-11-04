@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Miguel Angel Medina Diaz">
+  <meta name="description" content="Página diseñada para el II Parcial de la asignatura de Programación web">
+  <title>Lista de Asignaturas</title>
+  <link rel="stylesheet" th:href="@{/css/lsVehiculos.css}" type="text/css">
+  <!-- Bootstrap Links-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 columna">
+      <div th:if=${param.eliminado}>
+          <div class="alert alert-warning" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> Asignatura Eliminado exitosamente!!
+          </div>
+      </div>
+        <div class="container mt-5">
+          <div class="row">
+            <h1>Lista de Asignaturas</h1>
+          </div>
+          <div class="row  mt-3 mb-3" th:if="${asignaturas!= null and !asignaturas.empty}">
+            <table class="table table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Descripcion</th>
+                  <th>Salon</th>
+                  <th>H Entrada</th>
+                  <th>H Salida</th>
+                  <th>Docente</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="asignatura : ${asignaturas}">
+                  <td th:text="${asignatura.id}"></td>
+                  <td th:text="${asignatura.nombre}"></td>
+                  <td th:text="${asignatura.descripcion}"></td>
+                  <td th:text="${asignatura.salon}"></td>
+                  <td th:text="${asignatura.hComienzo}"></td>
+                  <td th:text="${asignatura.hFinal}"></td>
+                  <td th:text="${asignatura.docente.getNombre()}"></td>
+                  <td>
+                    <a sec:authorize="hasRole('RECTOR')" th:href="@{/rector/asignaturas/modificar}"><input type="button" class="btn btn-primary"
+                        value="Modificar"></a>
+                    <a sec:authorize="hasRole('DOCENTE')" th:href="@{/asignaturas/docente/modificar}"><input type="button" class="btn btn-primary"
+                        value="Modificar"></a>
+                    <a sec:authorize="hasRole('RECTOR')" th:href="@{/asignaturas/listar/} + ${asignatura.id}"><input type="button" class="btn btn-danger"
+                        value="Eliminar"
+                        onclick="if (!confirm('¿Estás seguro de eliminar este registro de Asignatura?')) return false;"></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-3 mb-3" th:if="${asignaturas == null or asignaturas.empty}">
+            <div class="card col-8 align-items-center text-center">
+              <div class="card-body">
+                <h1 class="card-title">No hay Asignaturas Registradas</h1>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 columna1">
+              <a class="btn btn-success" th:href="@{/}"><i class="bi bi-house-door-fill"></i> REGRESAR A INICIO</a>
+              <a class=" btn btn-warning" th:href="@{/rector/asignaturas/registro}" sec:authorize="!hasRole('ESTUDIANTE')"><i class="bi bi-person-fill-add"></i> REGISTRAR ASIGNATURA</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

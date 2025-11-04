@@ -1,0 +1,37 @@
+.navbar{
+  border-bottom: 1px solid #000000 !important;
+  padding: 0px !important;
+}
+
+.navbar .container-fluid{
+  background-color: chartreuse;
+  padding: 1rem !important;
+}
+
+.container-fluid .row .columna{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-fluid .row .col-md-12 .container{
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.25);
+  border-radius: 10px;
+}
+
+.container-fluid .row .col-md-12 .container .row h1{
+  text-align: center;
+  font-weight: bold;
+}
+
+.container-fluid .row .col-md-12 .container .row .columna1 a{
+  margin-right: 1rem;
+}
+
+.container-fluid .row .col-md-12 .container .row .columna1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

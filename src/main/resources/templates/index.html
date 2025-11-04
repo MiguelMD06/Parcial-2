@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Miguel Angel Medina Diaz">
+  <meta name="description" content="Página diseñada para el II Parcial de la asignatura de Programación web">
+  <title>Colegio Pepitos Aprendices</title>
+  <link rel="stylesheet" th:href="@{/css/index.css}" type="text/css">
+  <!-- Bootstrap Links-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Colegio Pepitos Aprendices</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item" sec:authorize="!hasRole('DOCENTE')">
+              <a class="nav-link active" th:href="@{/asignaturas/listar}">Lista de Asignaturas</a>
+            </li>
+            <li sec:authorize="hasRole('DOCENTE')" class="nav-item">
+              <a class="nav-link active" th:href="@{/asignaturas/docente/listar}">Lista de Asignaturas Docente</a>
+            </li>
+            <li sec:authorize="hasRole('DOCENTE')" class="nav-item">
+              <a class="nav-link active" th:href="@{/asignaturas/docente/modificar}">Cambiar Horarios</a>
+            </li>
+            <li sec:authorize="hasRole('RECTOR')" class="nav-item">
+              <a class="nav-link active" th:href="@{/rector/usuarios/listar}">Lista de Usuarios</a>
+            </li>
+            <li sec:authorize="hasRole('RECTOR')" class="nav-item dropdown">
+              <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Añadir
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" th:href="@{/rector/asignaturas/registro}">Asignatura</a></li>
+                <li><a class="dropdown-item" th:href="@{/rector/usuarios/registro}">Usuario</a></li>
+              </ul>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+              <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="nav-link btn btn-link" style="color:red;font-weight:bold;">Cerrar
+                  sesión</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 columna">
+        <div class="container mt-5">
+          <div class="row">
+            <div th:if=${param.forbiden}>
+              <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> No tienes permisos para realizar esta acción!!
+              </div>
+            </div>
+            <h1>Bienvenidos</h1>
+          </div>
+          <div class="row  mt-3 mb-3">
+            <p sec:authorize="!isAuthenticated()">Página de gestión de Colegio Pepito Aprendices, tendrás acceso a la lista de asignaturas y muchas cosas más si estás autorizado a ellas.</p>
+            <p sec:authorize="hasRole('RECTOR')">Página de gestión para tu colegio, tendrás acceso a crear, ver, eliminar y modificar asignaturas. Además tienes el poder de registrar usuarios como docentes o registrar a tus estudiantes para que puedan ver sus clases.</p>
+            <p sec:authorize="hasRole('DOCENTE')">Página de gestión del colegio Pepito Aprendices, aquí podrás ver que asignaturas tienes asignadas para dictar y tienes acceso a modificar sus horarios.</p>
+            <p sec:authorize="hasRole('ESTUDIANTE')">Página de gestión del colegio Pepito Aprendices, aquí podrás ver que asignaturas existen.</p>
+            
+          </div>
+          <div sec:authorize="!isAuthenticated()" class="row">
+            <div class="col-md-12 columna1">
+              <a class="btn btn-success" th:href="@{/login}"><i class="bi bi-person-circle"></i> INICIA SESIÓN</a>
+              <a class=" btn btn-warning" th:href="@{/registro}"><i class="bi bi-person-fill-add"></i> REGISTRARTE</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
