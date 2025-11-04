@@ -1,5 +1,7 @@
 QUERIES PARA BASE DE DATOS POSTGRESQL
 
+La documentación del Swagger esta disponible solo para el usuario con rol de rector
+
 El usuario de tipo rector es el primer usuario que se registra al sistema, así que por favor PRECAUCIÓN CON LAS CREDENCIALES.
 En el sistema solo se pueden crear usuarios usando el usuario de tipo rector y solo con los roles de estudiante y docente.
 
